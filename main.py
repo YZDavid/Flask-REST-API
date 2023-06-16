@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api, Resource, reqparse, abort
 
 app = Flask(__name__)
 api = Api(app)
@@ -20,6 +20,8 @@ database = {
 
 class Video(Resource):
     def get(self, video_id):
+        if video_id not in videos:
+            abort(404, message="video_id is not valid")
         return {video_id: videos[video_id]}
     
     def post(self, video_id):
